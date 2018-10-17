@@ -5,21 +5,17 @@ import functools
 def to_json(func):
     @functools.wraps(func)
     def wrapped(*args, **kwargs):
-        if args and kwargs:
-            return json.dumps(func(args, kwargs))
-        elif args:
-            return json.dumps(func(args))
-        elif kwargs:
-            return json.dumps(func(kwargs))
-        else:
-            return json.dumps(func())
+        result = func(*args, **kwargs)
+        return json.dumps(result)
 
     return wrapped
 
 
 @to_json
-def get_data():
-    return None
+def get_data(a, b):
+    return {
+        "a" : 42
+    }
 
 
-get_data()  # вернёт '{"data": 42}'
+print(get_data(10, b=16))  # вернёт '{"data": 42}'
